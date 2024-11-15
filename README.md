@@ -169,7 +169,7 @@ template:
 ```
 services:
   chirpstack-packet-multiplexer:
-    image: chirpstack-packet-multiplexer:4
+    image: chirpstack/chirpstack-packet-multiplexer:4.0.0-test.2
     command: -c /etc/chirpstack-packet-multiplexer/chirpstack-packet-multiplexer.toml
     ports:
       - 1700:1700/udp
