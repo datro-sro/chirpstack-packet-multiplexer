@@ -1,8 +1,6 @@
-use std::str::FromStr;
-
 use clap::{Parser, Subcommand};
 use signal_hook::{consts::SIGINT, consts::SIGTERM, iterator::Signals};
-use tracing::{info, Level};
+use tracing::info;
 use tracing_subscriber::{filter, prelude::*};
 
 use chirpstack_packet_multiplexer::{cmd, config, forwarder, listener, monitoring};
@@ -33,10 +31,12 @@ async fn main() {
         return;
     }
 
-    let filter = filter::Targets::new().with_targets(vec![(
-        "chirpstack_packet_multiplexer",
-        Level::from_str(&config.logging.level).unwrap(),
-    )]);
+    let filter = filter::EnvFilter::try_new(format!(
+        "{}={}",
+        env!("CARGO_PKG_NAME").replace('-', "_"),
+        config.logging.level
+    ))
+    .unwrap();
 
     tracing_subscriber::registry()
         .with(tracing_subscriber::fmt::layer())
