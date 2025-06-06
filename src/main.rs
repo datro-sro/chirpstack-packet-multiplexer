@@ -31,13 +31,19 @@ async fn main() {
         return;
     }
 
-    let filter = EnvFilter::try_from_default_env().unwrap_or_else(|_| {
-        EnvFilter::new(format!(
-            "{}={}",
-            env!("CARGO_PKG_NAME").replace('-', "_"),
-            config.logging.level
-        ))
-    });
+    // Parse `RUST_LOG` if present and fall back to the config log level for this
+    // crate. Environment variables still override the config value when set.
+    let filter = EnvFilter::builder()
+        .with_default_directive(
+            format!(
+                "{}={}",
+                env!("CARGO_PKG_NAME").replace('-', "_"),
+                config.logging.level
+            )
+            .parse()
+            .expect("parse log level"),
+        )
+        .from_env_lossy();
 
     tracing_subscriber::registry()
         .with(tracing_subscriber::fmt::layer())
