@@ -1,6 +1,7 @@
 use clap::{Parser, Subcommand};
 use signal_hook::{consts::SIGINT, consts::SIGTERM, iterator::Signals};
 use tracing::info;
+
 use tracing_subscriber::{prelude::*, EnvFilter};
 
 use chirpstack_packet_multiplexer::{cmd, config, forwarder, listener, monitoring};
@@ -31,6 +32,7 @@ async fn main() {
         return;
     }
 
+
     // Parse `RUST_LOG` if present and fall back to the config log level for this
     // crate. Environment variables still override the config value when set.
     let filter = EnvFilter::builder()
@@ -44,6 +46,7 @@ async fn main() {
             .expect("parse log level"),
         )
         .from_env_lossy();
+
 
     tracing_subscriber::registry()
         .with(tracing_subscriber::fmt::layer())
