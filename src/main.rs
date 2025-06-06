@@ -2,7 +2,7 @@ use clap::{Parser, Subcommand};
 use signal_hook::{consts::SIGINT, consts::SIGTERM, iterator::Signals};
 use tracing::info;
 
-use tracing_subscriber::{prelude::*, EnvFilter};
+use tracing_subscriber::{prelude::*, filter::LevelFilter, EnvFilter};
 
 use chirpstack_packet_multiplexer::{cmd, config, forwarder, listener, monitoring};
 
@@ -37,13 +37,12 @@ async fn main() {
     // crate. Environment variables still override the config value when set.
     let filter = EnvFilter::builder()
         .with_default_directive(
-            format!(
-                "{}={}",
-                env!("CARGO_PKG_NAME").replace('-', "_"),
-                config.logging.level
-            )
-            .parse()
-            .expect("parse log level"),
+            config
+                .logging
+                .level
+                .parse::<LevelFilter>()
+                .expect("parse log level")
+                .into(),
         )
         .from_env_lossy();
 
