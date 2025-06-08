@@ -2,7 +2,10 @@ use clap::{Parser, Subcommand};
 use signal_hook::{consts::SIGINT, consts::SIGTERM, iterator::Signals};
 use tracing::info;
 
-use tracing_subscriber::{prelude::*, filter::LevelFilter, EnvFilter};
+use tracing_subscriber::{fmt, prelude::*, filter::LevelFilter};
+use tracing::Level;
+use std::str::FromStr;
+
 
 use chirpstack_packet_multiplexer::{cmd, config, forwarder, listener, monitoring};
 
