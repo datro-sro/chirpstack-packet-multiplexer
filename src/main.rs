@@ -33,23 +33,14 @@ async fn main() {
     }
 
 
-    // Parse `RUST_LOG` if present and fall back to the config log level for this
-    // crate. Environment variables still override the config value when set.
-    let filter = EnvFilter::builder()
-        .with_default_directive(
-            config
-                .logging
-                .level
-                .parse::<LevelFilter>()
-                .expect("parse log level")
-                .into(),
-        )
-        .from_env_lossy();
+
+    let level = Level::from_str(&config.logging.level).unwrap();
+    let filter = LevelFilter::from_level(level);
+    let fmt_layer = fmt::layer().with_filter(filter);
 
 
     tracing_subscriber::registry()
-        .with(tracing_subscriber::fmt::layer())
-        .with(filter)
+        .with(fmt_layer)
         .init();
 
     info!(
