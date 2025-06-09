@@ -27,13 +27,18 @@
     "time",
   ] }
   anyhow = "1.0"
-  lrwn_filters = { version = "4.10.0-test.1", features = ["serde"] }
-  tracing = "0.1"
-  tracing-subscriber = { version = "0.3", features = ["fmt", "ansi"] }
+lrwn_filters = { version = "=4.10.0-test.1", features = ["serde"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["fmt", "ansi", "env-filter"] }
   signal-hook = "0.3"
   hex = "0.4"
   axum = "0.7"
   handlebars = "6.1"
+[dev-dependencies]
+tracing-test = "0.2"
+assert_cmd = "2"
+predicates = "3"
+
 
   # Debian packaging.
   [package.metadata.deb]
@@ -54,3 +59,4 @@
     ]
     maintainer-scripts = "packaging/debian/"
     systemd-units = { enable = true }
+
