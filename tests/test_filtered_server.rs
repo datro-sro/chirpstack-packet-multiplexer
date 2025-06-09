@@ -6,7 +6,7 @@ use tokio::time::timeout;
 use tracing_subscriber::prelude::*;
 
 use chirpstack_packet_multiplexer::{config, forwarder, listener};
-use lrwn_filters::EuiPrefix;
+use chirpstack_packet_multiplexer::eui_prefix::EuiPrefix;
 
 #[tokio::test]
 async fn test() {

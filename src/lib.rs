@@ -5,3 +5,4 @@ pub mod listener;
 pub mod monitoring;
 pub mod packets;
 pub mod traits;
+pub mod eui_prefix;

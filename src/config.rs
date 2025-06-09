@@ -65,7 +65,7 @@ impl Default for Multiplexer {
 pub struct Server {
     pub server: String,
     pub uplink_only: bool,
-    pub gateway_id_prefixes: Vec<lrwn_filters::EuiPrefix>,
+    pub gateway_id_prefixes: Vec<crate::eui_prefix::EuiPrefix>,
 }
 
 #[derive(Default, Serialize, Deserialize, Clone)]
