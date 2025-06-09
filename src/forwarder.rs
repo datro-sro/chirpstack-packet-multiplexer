@@ -18,7 +18,7 @@ static SERVERS: OnceCell<RwLock<Vec<Server>>> = OnceCell::const_new();
 struct Server {
     server: String,
     uplink_only: bool,
-    gateway_id_prefixes: Vec<lrwn_filters::EuiPrefix>,
+    gateway_id_prefixes: Vec<crate::eui_prefix::EuiPrefix>,
     downlink_tx: UnboundedSender<(GatewayId, Vec<u8>)>,
     sockets: HashMap<GatewayId, ServerSocket>,
 }
@@ -277,7 +277,7 @@ async fn handle_pull_resp(
 async fn add_server(
     server: String,
     uplink_only: bool,
-    gateway_id_prefixes: Vec<lrwn_filters::EuiPrefix>,
+    gateway_id_prefixes: Vec<crate::eui_prefix::EuiPrefix>,
     downlink_tx: UnboundedSender<(GatewayId, Vec<u8>)>,
 ) -> Result<()> {
     info!(
